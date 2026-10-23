@@ -1,1 +1,647 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orient Tour | Ortadoğu, Balkanlar & Orta Asya Turları</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --gold:#c9a227;
+    --dark:#1a1a2e;
+    --deep:#16213e;
+    --cream:#f8f4ec;
+    --text:#333;
+  }
+  body {
+    font-family:'Poppins', sans-serif;
+    color:var(--text);
+    background:var(--cream);
+    line-height:1.6;
+  }
+  h1,h2,h3 { font-family:'Playfair Display', serif; }
 
+  /* ---------- HEADER ---------- */
+  header {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:rgba(26,26,46,0.95);
+    backdrop-filter:blur(8px);
+    padding:14px 6%;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:0.3s;
+  }
+  .logo {
+    display:flex; align-items:center; gap:10px;
+    color:#fff; text-decoration:none;
+  }
+  .logo-icon {
+    width:42px; height:42px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display', serif;
+    font-size:20px; color:var(--gold);
+    position:relative;
+  }
+  .logo-icon::after {
+    content:'';
+    position:absolute; inset:3px;
+    border:1px dashed rgba(201,162,39,0.5);
+    border-radius:50%;
+  }
+  .logo-text { display:flex; flex-direction:column; line-height:1.1; }
+  .logo-text strong { font-size:19px; letter-spacing:2px; }
+  .logo-text span { font-size:10px; letter-spacing:3px; color:var(--gold); }
+  nav ul { display:flex; gap:28px; list-style:none; }
+  nav a {
+    color:#eee; text-decoration:none; font-size:14px; font-weight:400;
+    letter-spacing:0.5px; transition:0.3s; position:relative;
+  }
+  nav a::after {
+    content:''; position:absolute; left:0; bottom:-5px; width:0; height:2px;
+    background:var(--gold); transition:0.3s;
+  }
+  nav a:hover { color:var(--gold); }
+  nav a:hover::after { width:100%; }
+  .btn {
+    display:inline-block; padding:11px 26px;
+    background:var(--gold); color:var(--dark);
+    text-decoration:none; font-weight:600; font-size:14px;
+    border-radius:4px; transition:0.3s; border:none; cursor:pointer;
+    letter-spacing:0.5px;
+  }
+  .btn:hover { background:#e0b830; transform:translateY(-2px); }
+  .btn-outline {
+    background:transparent; border:1.5px solid var(--gold); color:var(--gold);
+  }
+  .btn-outline:hover { background:var(--gold); color:var(--dark); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height:100vh;
+    background:linear-gradient(rgba(22,33,62,0.75), rgba(26,26,46,0.85)),
+      url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1920&q=80') center/cover fixed;
+    display:flex; align-items:center;
+    padding:120px 6% 60px;
+    color:#fff;
+  }
+  .hero-content { max-width:720px; }
+  .hero-tag {
+    display:inline-block; color:var(--gold); letter-spacing:4px;
+    font-size:12px; font-weight:600; margin-bottom:18px;
+    border-left:3px solid var(--gold); padding-left:14px;
+  }
+  .hero h1 {
+    font-size:clamp(34px, 5.5vw, 62px);
+    line-height:1.15; margin-bottom:22px;
+  }
+  .hero h1 em { color:var(--gold); font-style:italic; }
+  .hero p {
+    font-size:17px; font-weight:300; max-width:560px;
+    margin-bottom:32px; color:#ddd;
+  }
+  .hero-actions { display:flex; gap:16px; flex-wrap:wrap; }
+
+  /* ---------- STATS ---------- */
+  .stats {
+    background:var(--dark); color:#fff;
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:20px; padding:38px 6%;
+  }
+  .stat { text-align:center; padding:0 30px; flex:1; min-width:140px; }
+  .stat h3 {
+    font-size:42px; color:var(--gold); font-weight:700;
+  }
+  .stat p { font-size:13px; color:#bbb; letter-spacing:1px; text-transform:uppercase; }
+
+  /* ---------- SECTION ---------- */
+  section { padding:90px 6%; }
+  .section-head { text-align:center; max-width:640px; margin:0 auto 55px; }
+  .section-head .tag
+{
+    color:var(--gold); letter-spacing:4px; font-size:12px;
+    font-weight:600; text-transform:uppercase;
+  }
+  .section-head h2 {
+    font-size:clamp(28px, 4vw, 42px); margin:12px 0 16px;
+    color:var(--deep);
+  }
+  .section-head p { color:#777; font-weight:300; }
+
+  /* ---------- TOURS ---------- */
+  .tours-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px,1fr));
+    gap:30px;
+    max-width:1300px; margin:0 auto;
+  }
+  .tour-card {
+    background:#fff; border-radius:12px; overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,0.07);
+    transition:0.35s; display:flex; flex-direction:column;
+  }
+  .tour-card:hover {
+    transform:translateY(-8px);
+    box-shadow:0 18px 40px rgba(0,0,0,0.14);
+  }
+  .tour-img {
+    height:210px; position:relative; overflow:hidden;
+    background-size:cover; background-position:center;
+    transition:0.5s;
+  }
+  .tour-card:hover .tour-img { transform:scale(1.06); }
+  .tour-badge {
+    position:absolute; top:14px; left:14px;
+    background:var(--gold); color:var(--dark);
+    padding:5px 12px; font-size:11px; font-weight:600;
+    border-radius:3px; letter-spacing:0.5px;
+  }
+  .tour-body { padding:24px; flex:1; display:flex; flex-direction:column; }
+  .tour-region {
+    font-size:11px; letter-spacing:2px; color:var(--gold);
+    font-weight:600; text-transform:uppercase; margin-bottom:8px;
+  }
+  .tour-body h3 { font-size:21px; color:var(--deep); margin-bottom:10px; }
+  .tour-body > p { font-size:13.5px; color:#777; font-weight:300; margin-bottom:18px; flex:1; }
+  .tour-meta {
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid #eee; padding-top:16px;
+  }
+  .tour-price { display:flex; flex-direction:column; }
+  .tour-price small { font-size:11px; color:#999; }
+  .tour-price strong { font-size:22px; color:var(--deep); }
+  .tour-price strong span { font-size:13px; font-weight:400; color:#999; }
+  .tour-duration {
+    font-size:12px; color:#777; background:var(--cream);
+    padding:6px 12px; border-radius:20px;
+  }
+
+  /* ---------- REGIONS ---------- */
+  .regions { background:var(--deep); color:#fff; }
+  .regions .section-head h2 { color:#fff; }
+  .regions .section-head p { color:#bbb; }
+  .region-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:24px; max-width:1200px; margin:0 auto;
+  }
+  .region-card {
+    position:relative; height:340px; border-radius:12px; overflow:hidden;
+    background-size:cover; background-position:center; cursor:pointer;
+  }
+  .region-card::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(22,33,62,0.92), transparent 65%);
+    transition:0.4s;
+  }
+  .region-card:hover::before {
+    background:linear-gradient(to top, rgba(201,162,39,0.85), rgba(22,33,62,0.3));
+  }
+  .region-info {
+    position:absolute; bottom:0; left:0; right:0; padding:26px;
+    z-index:2;
+  }
+  .region-info h3 { font-size:26px; margin-bottom:6px; }
+  .region-info p { font-size:13px; color:#ccc; font-weight:300; }
+
+  /* ---------- ABOUT ---------- */
+  .about-wrap {
+    display:grid; grid-template-columns:1fr 1fr; gap:60px;
+    max-width:1200px; margin:0 auto; align-items:center;
+  }
+  .about-img {
+    height:440px; border-radius:12px;
+    background:url('https://images.unsplash.com/photo-1527838832700-5059252407fa?w=900&q=80') center/cover;
+    position:relative;
+  }
+  .about-img::after {
+    content:'15+ Yıl';
+    position:absolute; bottom:24px; left:-24px;
+    background:var(--gold); color:var(--dark);
+    padding:18px 26px; border-radius:8px;
+    font-family:'Playfair Display', serif; font-size:26px; font-weight:700;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  }
+  .about-text .tag { color:var(--gold); letter-spacing:4px; font-size:12px; font-weight:600; }
+  .about-text h2 { font-size:38px; color:var(--deep); margin:12px 0 20px; }
+  .about-text p { color:#666; font-weight:300; margin-bottom:18px; }
+  .about-features { list-style:none; margin:24px 0; }
+  .about-features li {
+    padding:10px 0 10px 34px; position:relative;
+    font-size:14.5px; color:#444;
+  }
+  .about-features li::before {
+    content:'✦'; position:absolute; left:0; color:var(--gold);
+    font-size:16px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact { background:var(--cream); }
+  .contact-wrap {
+    display:grid; grid-template-columns:1fr 1fr; gap:50px;
+    max-width:1100px; margin:0 auto;
+  }
+  .contact-info h2 { font-size:36px; color:var(--deep); margin-bottom:18px; }
+  .contact-info > p { color:#666; font-weight:300; margin-bottom:30px; }
+  .contact-item {
+    display:flex; gap:16px; margin-bottom:22px; align-items:flex-start;
+  }
+  .contact-item .ic {
+    width:44px; height:44px; border-radius:50%;
+    background:var(--dark); color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
+  .contact-item h4 { font-size:14px; color:var(--deep); margin-bottom:2px; }
+  .contact-item p { font-size:14px; color:#777; font-weight:300; }
+
+  form {
+    background:#fff; padding:36px; border-radius:12px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  form label {
+    display:block; font-size:12.5px; font-weight:500;
+    color:var(--deep); margin:14px 0 6px;
+  }
+  form input, form select, form textarea {
+    width:100%; padding:12px 14px; border:1px solid #ddd;
+    border-radius:6px; font-family:inherit; font-size:14px;
+    transition:0.3s; background:#fafafa;
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline:none; border-color:var(--gold); background:#fff;
+    box-shadow:0 0 0 3px rgba(201,162,39,0.12);
+  }
+  form textarea { resize:vertical; min-height:90px; }
+  form .btn { width:100%; margin-top:20px; padding:14px; font-size:15px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background:var(--dark); color:#aaa; padding:60px 6% 30px;
+  }
+  .footer-grid {
+    display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px; max-width:1200px; margin:0 auto 40px;
+  }
+  .footer-grid h4 {
+    color:#fff; font-size:15px; margin-bottom:18px;
+    font-family:'Poppins',sans-serif; font-weight:600;
+  }
+  .footer-grid p, .footer-grid li { font-size:13.5px; font-weight:300; margin-bottom:10px; }
+  .footer-grid ul { list-style:none; }
+  .footer-grid a { color:#aaa; text-decoration:none; transition:0.3s; }
+  .footer-grid a:hover { color:var(--gold); }
+  .footer-brand .logo { margin-bottom:16px; }
+  .footer-brand p { max-width:280px; }
+  .footer-bottom {
+    border-top:1px solid rgba(255,255,255,0.1);
+    padding-top:24px; text-align:center;
+    font-size:12.5px; color:#777;
+    max-width:1200px; margin:0 auto;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:900px){
+    nav ul { display:none; }
+    .about-wrap, .contact-wrap, .footer-grid { grid-template-columns:1fr; }
+    .about-img { height:300px; }
+    .about-img::after { left:16px; }
+  }
+  @media(max-width:600px){
+    .hero { padding-top:100px; }
+    .stat h3 { font-size:32px; }
+    .form-row { grid-template-columns:1fr; }
+    header { padding:12px 5%; }
+    .hero-actions .btn { flex:1; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">O</div>
+    <div class="logo-text">
+      <strong>ORIENT TOUR</strong>
+      <span>ISTANBUL · EST. 2009</span>
+    </div>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="#tours">Turlar</a></li>
+      <li><a href="#regions">Bölgeler</a></li>
+      <li><a href="#about">Hakkımızda</a></li>
+      <li><a href="#contact">İletişim</a></li>
+    </ul>
+  </nav>
+  <a href="#contact" class="btn">Rezervasyon</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">ORTADOĞU · BALKANLAR · ORTA ASYA</span>
+    <h1>Keşfedilmeyi Bekleyen <em>Doğu'nun</em> Kalbine Yolculuk</h1>
+    <p>İstanbul merkezli Orient Tour ile unutulmaz kültür turları. Semerkant'ın ipek yollarından Mostar'ın köprülerine, Petra'nın antik kentinden Kapadokya'nın peri bacalarına kadar...</p>
+    <div class="hero-actions">
+      <a href="#tours" class="btn">Turları Keşfet</a>
+      <a href="#contact" class="btn btn-outline">Bize Ulaşın</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><h3>15+</h3><p>Yıllık Tecrübe</p></div>
+  <div class="stat"><h3>120+</h3><p>Tur Rotası</p></div>
+  <div class="stat"><h3>25K+</h3><p>Mutlu Gezgin</p></div>
+  <div class="stat"><h3>18</h3><p>Ülke</p></div>
+</div>
+
+<!-- TOURS -->
+<section id="tours">
+  <div class="section-head">
+    <span class="tag">Popüler Turlarımız</span>
+    <h2>Hayalinizdeki Rota Burada</h2>
+    <p>Uzman rehberler eşliğinde, özenle hazırlanmış kültür ve keşif turlarımız.</p>
+  </div>
+
+  <div class="tours-grid">
+
+    <!-- Tour 1 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80')">
+        <span class="tour-badge">EN ÇOK TERCİH EDİLEN</span>
+      </div>
+      <div class="tour-body">
+        <span class="tour-region">Orta Asya</span>
+        <h3>İpek Yolu Efsanesi</h3>
+        <p>Semerkant, Buhara, Hive ve Taşkent... Özbekistan'ın büyüleyici tarihi şehirlerinde 8 günlük masalsı yolculuk.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€1.290 <span>/ 8 gün</span></strong>
+          </div>
+          <span class="tour-duration">Uçak dahil</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour 2 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1555990538-1e6b1c1e2e8f?w=800&q=80')"></div>
+      <div class="tour-body">
+        <span class="tour-region">Balkanlar</span>
+        <h3>Balkan Rüzgarı</h3>
+        <p>Saraybosna, Mostar, Dubrovnik, Kotor ve Budva. Adriyatik kıyıları ve Osmanlı mirasıyla 7 günlük tur.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€890 <span>/ 7 gün</span></strong>
+          </div>
+          <span class="tour-duration">Yarım pansiyon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour 3 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80')">
+        <span class="tour-badge">YENİ</span>
+      </div>
+      <div class="tour-body">
+        <span class="tour-region">Ortadoğu</span>
+        <h3>Petra & Ölü Deniz</h3>
+        <p>Ürdün'ün gizemli antik kenti Petra, Wadi Rum çölü ve şifalı Ölü Deniz. 5 günlük unutulmaz deneyim.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€750 <span>/ 5 gün</span></strong>
+          </div>
+          <span class="tour-duration">Vize dahil</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour 4 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80')"></div>
+      <div class="tour-body">
+        <span class="tour-region">Orta Asya</span>
+        <h3>Kırgızistan Doğa Turu</h3>
+        <p>Issık Göl, Ala-Arça Milli Parkı ve göçebe kültürü. Doğa tutkunları için 6 günlük eşsiz rota.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€980 <span>/ 6 gün</span></strong>
+          </div>
+          <span class="tour-duration">Tam pansiyon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour 5 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800&q=80')"></div>
+      <div class="tour-body">
+        <span class="tour-region">Balkanlar</span>
+        <h3>Yunanistan & Adalar</h3>
+        <p>Atina, Selanik ve Santorini. Antik Yunan'dan Ege'nin mavi sularına uzanan 8 günlük tatil.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€1.100 <span>/8 gün</span></strong>
+          </div>
+          <span class="tour-duration">Feribot dahil</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour 6 -->
+    <div class="tour-card">
+      <div class="tour-img" style="background-image:url('https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=800&q=80')">
+        <span class="tour-badge">KÜÇÜK GRUP</span>
+      </div>
+      <div class="tour-body">
+        <span class="tour-region">Ortadoğu</span>
+        <h3>Mısır Piramitleri</h3>
+        <p>Kahire, Giza Piramitleri, Nil Nehri ve Luksor. Firavunların topraklarında 6 günlük tarih yolculuğu.</p>
+        <div class="tour-meta">
+          <div class="tour-price">
+            <small>Kişi başı</small>
+            <strong>€820 <span>/ 6 gün</span></strong>
+          </div>
+          <span class="tour-duration">Rehberli</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REGIONS -->
+<section id="regions" class="regions">
+  <div class="section-head">
+    <span class="tag">Bölgeler</span>
+    <h2>Hangi Coğrafyaya Gidiyoruz?</h2>
+    <p>Üç farklı dünya, sayısız keşif imkanı.</p>
+  </div>
+  <div class="region-grid">
+    <div class="region-card" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?w=800&q=80')">
+      <div class="region-info">
+        <h3>Ortadoğu</h3>
+        <p>Ürdün · Mısır · Lübnan · BAE</p>
+      </div>
+    </div>
+    <div class="region-card" style="background-image:url('https://images.unsplash.com/photo-1555990538-1e6b1c1e2e8f?w=800&q=80')">
+      <div class="region-info">
+        <h3>Balkanlar</h3>
+        <p>Bosna · Hırvatistan · Karadağ · Yunanistan</p>
+      </div>
+    </div>
+    <div class="region-card" style="background-image:url('https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80')">
+      <div class="region-info">
+        <h3>Orta Asya</h3>
+        <p>Özbekistan · Kırgızistan · Kazakistan</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-img"></div>
+    <div class="about-text">
+      <span class="tag">HAKKIMIZDA</span>
+      <h2>İstanbul'dan Dünyaya Açılan Köprü</h2>
+      <p>2009 yılından bu yana İstanbul merkezli olarak faaliyet gösteren Orient Tour, Ortadoğu, Balkanlar ve Orta Asya'nın kültürel zenginliklerini keşfetmek isteyen gezginlere özel turlar düzenliyor.</p>
+      <p>Her turumuzda konusunda uzman yerel rehberler, konforlu konaklama ve özenle seçilmiş rotalarla misafirlerimize sadece bir seyahat değil, unutulmaz bir kültür deneyimi sunuyoruz.</p>
+      <ul class="about-features">
+        <li>Profesyonel Türkçe rehberlik hizmeti</li>
+        <li>Küçük gruplarla kişiye özel deneyim</li>
+        <li>Vize ve sigorta desteği</li>
+        <li>7/24 acil destek hattı</li>
+      </ul>
+      <a href="#contact" class="btn">Detaylı Bilgi Al</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h2>Seyahatinizi Birlikte Planlayalım</h2>
+      <p>Sorularınız için bize ulaşın, uzman ekibimiz en kısa sürede size dönüş yapsın.</p>
+      <div class="contact-item">
+        <div class="ic">📍</div>
+        <div>
+          <h4>Adres</h4>
+          <p>İstiklal Caddesi No: 145, Kat 4<br>Beyoğlu / İstanbul, Türkiye</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ic">📞</div>
+        <div>
+          <h4>Telefon</h4>
+          <p>+90 212 555 34 34<br>+90 532 555 34 34 (WhatsApp)</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ic">✉️</div>
+        <div>
+          <h4>E-posta</h4>
+          <p>info@orienttour.com.tr<br>rezervasyon@orienttour.com.tr</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ic">🕐</div>
+        <div>
+          <h4>Çalışma Saatleri</h4>
+          <p>Pazartesi - Cumartesi: 09:00 - 19:00</p>
+        </div>
+      </div>
+    </div>
+
+    <form onsubmit="event.preventDefault(); alert('Talebiniz alındı! En kısa sürede size dönüş yapacağız. ✈️'); this.reset();">
+      <div class="form-row">
+        <div>
+          <label>Ad Soyad</label>
+          <input type="text" placeholder="Adınız" required>
+        </div>
+        <div>
+          <label>Telefon</label>
+          <input type="tel" placeholder="+90 5XX XXX XX XX" required>
+        </div>
+      </div>
+      <label>E-posta</label>
+      <input type="email" placeholder="ornek@mail.com" required>
+      <label>İlgilendiğiniz Tur</label>
+      <select required>
+        <option value="">Seçiniz</option>
+        <option>İpek Yolu Efsanesi (Özbekistan)</option>
+        <option>Balkan Rüzgarı</option>
+        <option>Petra & Ölü Deniz (Ürdün)</option>
+        <option>Kırgızistan Doğa Turu</option>
+        <option>Yunanistan & Adalar</option>
+        <option>Mısır Piramitleri</option>
+        <option>Özel Tur / Diğer</option>
+      </select>
+      <label>Mesajınız</label>
+      <textarea placeholder="Seyahatinizle ilgili detayları yazın..."></textarea>
+      <button type="submit" class="btn">Rezervasyon Talebi Gönder</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">O</div>
+        <div class="logo-text">
+          <strong>ORIENT TOUR</strong>
+          <span>ISTANBUL · EST. 2009</span>
+        </div>
+      </a>
+      <p>Ortadoğu, Balkanlar ve Orta Asya'nın kültürel zenginliklerini keşfetmeniz için 15 yıldır yanınızdayız.</p>
+    </div>
+    <div>
+      <h4>Keşfet</h4>
+      <ul>
+        <li><a href="#tours">Turlar</a></li>
+        <li><a href="#regions">Bölgeler</a></li>
+        <li><a href="#about">Hakkımızda</a></li>
+        <li><a href="#contact">İletişim</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Bölgeler</h4>
+      <ul>
+        <li><a href="#">Ortadoğu Turları</a></li>
+        <li><a href="#">Balkan Turları</a></li>
+        <li><a href="#">Orta Asya Turları</a></li>
+        <li><a href="#">Özel Turlar</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kurumsal</h4>
+      <ul>
+        <li><a href="#">Gizlilik Politikası</a></li>
+        <li><a href="#">Kullanım Şartları</a></li>
+        <li><a href="#">İptal & İade</a></li>
+        <li><a href="#">Kariyer</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Orient Tour Turizm A.Ş. · TÜRSAB Belge No: A-1234 · Tüm hakları saklıdır.
+  </div>
+</footer>
+
+</body>
+</html>
